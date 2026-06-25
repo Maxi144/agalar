@@ -9,6 +9,7 @@
 body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;position:relative;}
 .kavax-header{position:fixed;top:0;left:0;width:100%;height:80px;z-index:50;border-bottom:1px solid rgba(255,255,255,0.05);background-color:rgba(0,0,0,0.5);backdrop-filter:blur(12px);}
 .kavax-container{max-width:1280px;margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;justify-content:space-between;}
+.logo-link{text-decoration:none;cursor:pointer;}
 .logo-alani{font-size:24px;font-weight:bold;letter-spacing:0.05em;color:#ffffff;}
 .menu-linkleri{display:flex;align-items:center;gap:32px;}
 .menu-linkleri a{font-size:14px;font-weight:500;color:#9ca3af;text-decoration:none;}
@@ -40,12 +41,8 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 <body>
 <header class="kavax-header">
 <div class="kavax-container">
-<div class="logo-alani">AGALAR</div>
-<nav class="menu-linkleri" id="nav-menu">
-<!-- SIHIRLI DUEZELTME: Klasor yapisina tam uyumlu hale getirildi -->
-<a href="./">Ana Sayfa</a>
-<a href="sunucular.html">Sunucular</a>
-</nav>
+<a href="index.html" class="logo-link"><div class="logo-alani">AGALAR</div></a>
+<nav class="menu-linkleri" id="nav-menu"><a href="sunucular.html">Sunucular</a></nav>
 <a href="#" class="giris-butonu" id="durum-butonu">Kilitli</a>
 </div>
 </header>
@@ -68,7 +65,7 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 </div>
 </div>
 <script>
-window.onload = function() { var aktifRol = sessionStorage.getItem('aktif_oturum'); if (aktifRol) { paneliKapat(aktifRol); } }
+window.onload = function() { var aktifRol = localStorage.getItem('aktif_oturum'); if (aktifRol) { paneliKapat(aktifRol); } }
 function mevcutDegil() { alert("Henüz bu grup mevcut değil :("); }
 function paneliKapat(rol) {
 document.getElementById('ana-icerik').style.filter = "none"; document.getElementById('ana-icerik').style.pointerEvents = "auto"; document.getElementById('ana-icerik').style.userSelect = "auto";
@@ -79,11 +76,13 @@ var menu = document.getElementById('nav-menu'); if(!document.querySelector('.adm
 }
 function sistemeGirisYap() {
 var kadi = document.getElementById('kullanici-adi').value.trim().toLowerCase(); var pas = document.getElementById('sifre').value.trim();
-var agalarListesi = {"admin":{"sifre":"admin123","rutbe":"admin"},"Erol":{"sifre":"1234","rutbe":"uye"},"misafir":{"sifre":"misafir123","rutbe":"uye"}};
+// DUeZELTME: agaurye hesabı bu listeden tamamen temizlendi
+var agalarListesi = {"admin":{"sifre":"admin123","rutbe":"admin"},"misafir":{"sifre":"misafir123","rutbe":"uye"}};
 if (agalarListesi[kadi] && agalarListesi[kadi].sifre === pas) {
-var rol = agalarListesi[kadi].rutbe; sessionStorage.setItem('aktif_oturum', rol); paneliKapat(rol);
+var rol = agalarListesi[kadi].rutbe; localStorage.setItem('aktif_oturum', rol); paneliKapat(rol);
 } else { alert("Hatalı Giriş!"); }
 }
 </script>
 </body>
 </html>
+
