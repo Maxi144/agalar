@@ -33,7 +33,11 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 <header class="kavax-header">
 <div class="kavax-container">
 <div class="logo-alani">AGALAR</div>
-<nav class="menu-linkleri" id="nav-menu"><a href="https://github.io">Ana Sayfa</a><a href="chat.html">Chat</a></nav>
+<nav class="menu-linkleri" id="nav-menu">
+<!-- SIHIRLI DUEZELTME: Klasor yapisina tam uyumlu hale getirildi -->
+<a href="./">Ana Sayfa</a>
+<a href="chat.html">Chat</a>
+</nav>
 <a href="#" class="giris-butonu" id="durum-butonu">Kilitli</a>
 </div>
 </header>
@@ -58,7 +62,6 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 </div>
 <script>
 window.onload = function() { var aktifRol = sessionStorage.getItem('aktif_oturum'); if (aktifRol) { paneliKapat(aktifRol); } }
-
 function paneliKapat(rol) {
 document.getElementById('ana-icerik').style.filter = "none"; document.getElementById('ana-icerik').style.pointerEvents = "auto"; document.getElementById('ana-icerik').style.userSelect = "auto";
 document.getElementById('giris-paneli').style.display = "none"; document.getElementById('durum-butonu').innerText = "Oturum Açık"; document.getElementById('durum-butonu').style.backgroundColor = "#22c55e"; document.getElementById('durum-butonu').style.color = "#ffffff";
@@ -66,25 +69,12 @@ if (rol === 'admin') {
 var menu = document.getElementById('nav-menu'); if(!document.querySelector('.admin-link-butonu')){ var adminButon = document.createElement('a'); adminButon.href = "admin.html"; adminButon.innerText = "Admin Paneli"; adminButon.className = "admin-link-butonu"; menu.appendChild(adminButon); }
 }
 }
-
 function sistemeGirisYap() {
-    var kadi = document.getElementById('kullanici-adi').value.trim().toLowerCase(); 
-    var pas = document.getElementById('sifre').value.trim();
-
-    // GÜVENLİK LİSTESİ: Agaların hesaplarını doğrudan buraya yazıyorsun!
-    // İstediğin kadar bilgisayardan girilsin, bu listedekiler tıkır tıkır açılır.
-    var agalarListesi = {
-        "admin": { "sifre": "admin123", "rutbe": "admin" },
-        "agaurye": { "sifre": "uye123", "rutbe": "uye" },
-        "misafir": { "sifre": "misafir123", "rutbe": "uye" },
-        "burak": { "sifre": "burak2026", "rutbe": "uye" }
-    };
-
-    if (agalarListesi[kadi] && agalarListesi[kadi].sifre === pas) {
-        var rol = agalarListesi[kadi].rutbe;
-        sessionStorage.setItem('aktif_oturum', rol); 
-        paneliKapat(rol);
-    } else { alert("Hatalı Kullanıcı Adı veya Şifre!"); }
+var kadi = document.getElementById('kullanici-adi').value.trim().toLowerCase(); var pas = document.getElementById('sifre').value.trim();
+var agalarListesi = {"admin":{"sifre":"admin123","rutbe":"admin"},"Erol":{"sifre":"1234","rutbe":"uye"},"misafir":{"sifre":"misafir123","rutbe":"uye"}};
+if (agalarListesi[kadi] && agalarListesi[kadi].sifre === pas) {
+var rol = agalarListesi[kadi].rutbe; sessionStorage.setItem('aktif_oturum', rol); paneliKapat(rol);
+} else { alert("Hatalı Giriş!"); }
 }
 </script>
 </body>
