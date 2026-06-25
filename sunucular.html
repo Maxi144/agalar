@@ -43,6 +43,7 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 <thead><tr><th>Sunucu İsmi</th><th>Sahibi</th><th>Sunucu Özellikleri</th><th>Adresi</th><th>Sürümü</th><th>Modlu mu?</th></tr></thead>
 <tbody>
 <tr><td>Agalar Survival</td><td>Kavax</td><td>64 GB RAM, Ryzen 9</td><td>://agalar.com</td><td>1.20.4</td><td>Hayır</td></tr>
+<tr><td>Agalar Modlu Teknik</td><td>ZıpırAdmin</td><td>32 GB RAM</td><td>://agalar.com</td><td>1.12.2</td><td>Evet</td></tr>
 </tbody>
 </table>
 </main>
@@ -56,10 +57,7 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 </div>
 </div>
 <script>
-var OKUMA_URL = "https://jsonbin.io";
-var MASTER_KEY = "$2a$10$Dia5SMZ4rX54iOdZhkP9Gu5aWoufltUipsX3yxHEw9DpvoVLbI5FK";
-
-window.onload = function() { var aktifRol = localStorage.getItem('aktif_oturum'); if (aktifRol) { paneliKapat(aktifRol); } }
+window.onload = function() { var aktifRol = sessionStorage.getItem('aktif_oturum'); if (aktifRol) { paneliKapat(aktifRol); } }
 
 function paneliKapat(rol) {
 document.getElementById('ana-icerik').style.filter = "none"; document.getElementById('ana-icerik').style.pointerEvents = "auto"; document.getElementById('ana-icerik').style.userSelect = "auto";
@@ -72,17 +70,21 @@ var menu = document.getElementById('nav-menu'); if(!document.querySelector('.adm
 function sistemeGirisYap() {
     var kadi = document.getElementById('kullanici-adi').value.trim().toLowerCase(); 
     var pas = document.getElementById('sifre').value.trim();
-    if(kadi === "admin" && pas === "admin123") { localStorage.setItem('aktif_oturum', 'admin'); paneliKapat('admin'); return; }
 
-    fetch(OKUMA_URL, {
-        headers: { "X-Master-Key": MASTER_KEY }
-    }).then(res => res.json()).then(resData => {
-        var liste = resData.record || {};
-        if(liste[kadi] && liste[kadi].sifre === pas) {
-            localStorage.setItem('aktif_oturum', liste[kadi].rutbe || 'uye');
-            paneliKapat(liste[kadi].rutbe || 'uye');
-        } else { alert("Hatalı Giriş!"); }
-    }).catch(() => alert("Ortak JSON dosyasına bağlanılamadı!"));
+    // GÜVENLİK LİSTESİ: Agaların hesaplarını doğrudan buraya yazıyorsun!
+    // İstediğin kadar bilgisayardan girilsin, bu listedekiler tıkır tıkır açılır.
+    var agalarListesi = {
+        "admin": { "sifre": "admin123", "rutbe": "admin" },
+        "agaurye": { "sifre": "uye123", "rutbe": "uye" },
+        "misafir": { "sifre": "misafir123", "rutbe": "uye" },
+        "burak": { "sifre": "burak2026", "rutbe": "uye" }
+    };
+
+    if (agalarListesi[kadi] && agalarListesi[kadi].sifre === pas) {
+        var rol = agalarListesi[kadi].rutbe;
+        sessionStorage.setItem('aktif_oturum', rol); 
+        paneliKapat(rol);
+    } else { alert("Hatalı Kullanıcı Adı veya Şifre!"); }
 }
 </script>
 </body>
