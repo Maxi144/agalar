@@ -56,9 +56,8 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 </div>
 </div>
 <script>
-var BIN_ID = "6a3d503eda38895dfefe2ac9";
-// BURAYA KENDİ MASTER KEY ŞİFRENİ YAZMALISIN
-var MASTER_KEY = "BURAYA_KENDI_MASTER_KEY_SIFRENI_YAZ";
+var OKUMA_URL = "https://jsonbin.io";
+var MASTER_KEY = "$2a$10$Dia5SMZ4rX54iOdZhkP9Gu5aWoufltUipsX3yxHEw9DpvoVLbI5FK";
 
 window.onload = function() { var aktifRol = localStorage.getItem('aktif_oturum'); if (aktifRol) { paneliKapat(aktifRol); } }
 
@@ -75,7 +74,7 @@ function sistemeGirisYap() {
     var pas = document.getElementById('sifre').value.trim();
     if(kadi === "admin" && pas === "admin123") { localStorage.setItem('aktif_oturum', 'admin'); paneliKapat('admin'); return; }
 
-    fetch("https://jsonbin.io" + BIN_ID + "/latest", {
+    fetch(OKUMA_URL, {
         headers: { "X-Master-Key": MASTER_KEY }
     }).then(res => res.json()).then(resData => {
         var liste = resData.record || {};
@@ -88,3 +87,4 @@ function sistemeGirisYap() {
 </script>
 </body>
 </html>
+
