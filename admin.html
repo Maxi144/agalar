@@ -46,7 +46,7 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 </div>
 <div>
 <div class="kart">
-<h2 class="kart-baslik">Etkin Olan Kullanıcılar (Mevcut JSON Dosyası)</h2>
+<h2 class="kart-baslik">Etkin Olan Kullanıcılar (Ortak JSON Bulutu)</h2>
 <table class="liste-tablosu">
 <thead><tr><th>Kullanıcı Adı</th><th>Mevcut Şifre</th><th>Kullanıcı Rütbesi</th><th>İşlem</th></tr></thead>
 <tbody id="kullanici-listesi"></tbody>
@@ -55,7 +55,7 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 </div>
 </div>
 <script>
-// BURADAKİ İKİ ALANI JSONBIN PANELİNDEN ALDIĞIN DEĞERLERLE DOLDUR
+// PANELDEKİ KODLARINI BURAYA YAPIŞTIR
 var BIN_ID = "6a3d503eda38895dfefe2ac9";
 var MASTER_KEY = "$2a$10$Dia5SMZ4rX54iOdZhkP9Gu5aWoufltUipsX3yxHEw9DpvoVLbI5FK";
 var mevcutVeri = {};
@@ -64,7 +64,6 @@ window.onload = function() { listeyiYenile(); }
 
 function listeyiYenile() {
     var tbody = document.getElementById('kullanici-listesi'); tbody.innerHTML = "";
-    // İnternetteki JSON dosyamızı okuyoruz
     fetch("https://jsonbin.io" + BIN_ID + "/latest", {
         headers: { "X-Master-Key": MASTER_KEY }
     }).then(res => res.json()).then(resData => {
@@ -81,22 +80,16 @@ function uyeKaydet(){
     var u = document.getElementById('yeni-kadi').value.trim().toLowerCase();
     var p = document.getElementById('yeni-sifre').value.trim();
     if(!u || !p) { alert('Alanları doldurun!'); return; }
-    
-    // Mevcut JSON listesinin üzerine yeni üyeyi ekleyip buluta geri yüklüyoruz
     mevcutVeri[u] = { sifre: p, rutbe: "uye" };
     bulutuGuncelle();
 }
 
 function uyeSil(kadi) {
-    if(confirm(kadi + ' silinsin mi?')) {
-        delete mevcutVeri[kadi];
-        bulutuGuncelle();
-    }
+    if(confirm(kadi + ' silinsin mi?')) { delete mevcutVeri[kadi]; bulutuGuncelle(); }
 }
 
 function rutbeDegistir(kadi, yeniRutbe) {
-    mevcutVeri[kadi].rutbe = yeniRutbe;
-    bulutuGuncelle();
+    mevcutVeri[kadi].rutbe = yeniRutbe; bulutuGuncelle();
 }
 
 function bulutuGuncelle() {
@@ -104,7 +97,7 @@ function bulutuGuncelle() {
         method: "PUT",
         headers: { "Content-Type": "application/json", "X-Master-Key": MASTER_KEY },
         body: JSON.stringify(mevcutVeri)
-    }).then(() => { alert("JSON Dosyası Güncellendi!"); document.getElementById('yeni-kadi').value=''; document.getElementById('yeni-sifre').value=''; listeyiYenile(); });
+    }).then(() => { alert(u + " ortak JSON dosyasına işlendi!"); document.getElementById('yeni-kadi').value=''; document.getElementById('yeni-sifre').value=''; listeyiYenile(); });
 }
 
 function cikisYap() { localStorage.removeItem('aktif_oturum'); window.location.href = "index.html"; }
