@@ -56,9 +56,9 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 </div>
 </div>
 <script>
-// PANELDEKİ KODLARINI BURAYA YAPIŞTIR
 var BIN_ID = "6a3d503eda38895dfefe2ac9";
-var MASTER_KEY = "$2a$10$Dia5SMZ4rX54iOdZhkP9Gu5aWoufltUipsX3yxHEw9DpvoVLbI5FK";
+// BURAYA KENDİ MASTER KEY ŞİFRENİ YAZMALISIN
+var MASTER_KEY = "BURAYA_KENDI_MASTER_KEY_SIFRENI_YAZ";
 
 window.onload = function() { var aktifRol = localStorage.getItem('aktif_oturum'); if (aktifRol) { paneliKapat(aktifRol); } }
 
@@ -75,7 +75,6 @@ function sistemeGirisYap() {
     var pas = document.getElementById('sifre').value.trim();
     if(kadi === "admin" && pas === "admin123") { localStorage.setItem('aktif_oturum', 'admin'); paneliKapat('admin'); return; }
 
-    // Giriş yaparken internetteki ortak JSON dosyasını çekip kontrol ediyoruz
     fetch("https://jsonbin.io" + BIN_ID + "/latest", {
         headers: { "X-Master-Key": MASTER_KEY }
     }).then(res => res.json()).then(resData => {
@@ -83,7 +82,7 @@ function sistemeGirisYap() {
         if(liste[kadi] && liste[kadi].sifre === pas) {
             localStorage.setItem('aktif_oturum', liste[kadi].rutbe || 'uye');
             paneliKapat(liste[kadi].rutbe || 'uye');
-        } else { alert("Hatalı Giriş! Şifreniz ortak bulut dosyasında bulunamadı."); }
+        } else { alert("Hatalı Giriş!"); }
     }).catch(() => alert("Ortak JSON dosyasına bağlanılamadı!"));
 }
 </script>
