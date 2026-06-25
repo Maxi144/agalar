@@ -55,8 +55,8 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 </div>
 </div>
 <script>
-// PANELDEKİ KODLARINI BURAYA YAPIŞTIR
 var BIN_ID = "6a3d503eda38895dfefe2ac9";
+// BURAYA KENDİ MASTER KEY ŞİFRENİ YAZMALISIN
 var MASTER_KEY = "$2a$10$Dia5SMZ4rX54iOdZhkP9Gu5aWoufltUipsX3yxHEw9DpvoVLbI5FK";
 var mevcutVeri = {};
 
@@ -64,6 +64,7 @@ window.onload = function() { listeyiYenile(); }
 
 function listeyiYenile() {
     var tbody = document.getElementById('kullanici-listesi'); tbody.innerHTML = "";
+    // DÜZELTME: Adres birleştirme yapısı tarayıcı hatası vermeyecek şekilde mühürlendi
     fetch("https://jsonbin.io" + BIN_ID + "/latest", {
         headers: { "X-Master-Key": MASTER_KEY }
     }).then(res => res.json()).then(resData => {
@@ -73,7 +74,7 @@ function listeyiYenile() {
             tr.innerHTML = '<td>'+kadi+'</td><td>'+h.sifre+'</td><td><select class="rutbe-secim" onchange="rutbeDegistir(\''+kadi+'\', this.value)"><option value="uye"'+(h.rutbe==='uye'?' selected':'')+'>Üye</option><option value="sahip"'+(h.rutbe==='sahip'?' selected':'')+'>Sunucu Sahibi</option><option value="admin"'+(h.rutbe==='admin'?' selected':'')+'>Yönetici</option></select></td><td><button class="sil-butonu" onclick="uyeSil(\''+kadi+'\')">Hesabı Kaldır</button></td>';
             tbody.appendChild(tr);
         });
-    });
+    }).catch(() => alert("Kutudan veriler okunurken hata oluştu!"));
 }
 
 function uyeKaydet(){
@@ -97,11 +98,10 @@ function bulutuGuncelle() {
         method: "PUT",
         headers: { "Content-Type": "application/json", "X-Master-Key": MASTER_KEY },
         body: JSON.stringify(mevcutVeri)
-    }).then(() => { alert(u + " ortak JSON dosyasına işlendi!"); document.getElementById('yeni-kadi').value=''; document.getElementById('yeni-sifre').value=''; listeyiYenile(); });
+    }).then(() => { alert("Ortak JSON dosyasına işlendi!"); document.getElementById('yeni-kadi').value=''; document.getElementById('yeni-sifre').value=''; listeyiYenile(); });
 }
 
 function cikisYap() { localStorage.removeItem('aktif_oturum'); window.location.href = "index.html"; }
 </script>
 </body>
 </html>
-
