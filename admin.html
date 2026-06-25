@@ -55,17 +55,17 @@ body{background-color:#0b0f19;min-height:100vh;display:flex;flex-direction:colum
 </div>
 </div>
 <script>
-var BIN_ID = "6a3d503eda38895dfefe2ac9";
-// BURAYA KENDİ MASTER KEY ŞİFRENİ YAZMALISIN
-var MASTER_KEY = "$2a$10$Dia5SMZ4rX54iOdZhkP9Gu5aWoufltUipsX3yxHEw9DpvoVLbI5FK";
+// SİHİRLİ DÜZELTME: API linklerini hiç bölmeden, tam ve hazır olarak koda mühürledim!
+var OKUMA_URL = "https://jsonbin.io";
+var YAZMA_URL = "https://jsonbin.io";
+var MASTER_KEY = "BURAYA_KENDI_MASTER_KEY_SIFRENI_YAZ";
 var mevcutVeri = {};
 
 window.onload = function() { listeyiYenile(); }
 
 function listeyiYenile() {
     var tbody = document.getElementById('kullanici-listesi'); tbody.innerHTML = "";
-    // DÜZELTME: Adres birleştirme yapısı tarayıcı hatası vermeyecek şekilde mühürlendi
-    fetch("https://jsonbin.io" + BIN_ID + "/latest", {
+    fetch(OKUMA_URL, {
         headers: { "X-Master-Key": MASTER_KEY }
     }).then(res => res.json()).then(resData => {
         mevcutVeri = resData.record || {};
@@ -94,7 +94,7 @@ function rutbeDegistir(kadi, yeniRutbe) {
 }
 
 function bulutuGuncelle() {
-    fetch("https://jsonbin.io" + BIN_ID, {
+    fetch(YAZMA_URL, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "X-Master-Key": MASTER_KEY },
         body: JSON.stringify(mevcutVeri)
